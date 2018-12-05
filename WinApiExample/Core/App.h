@@ -39,7 +39,7 @@ namespace xexperimente
 
 			}
 
-			Frame *mainFrame = nullptr;
+			//Frame *mainFrame = nullptr;
 
 		};
 	}

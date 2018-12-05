@@ -2,93 +2,34 @@
 //
 
 #include "stdafx.h"
-#include "WinApiExample.h"
-#include "Core\winui.h"
+
 #include <string>
 #include <memory>
+
+#include "WinApiExample.h"
+#include "Core\winui.h"
 
 namespace WinUI = xexperimente::WinUI;
 
 WinUI::App app;
 
-class StaticText: public WinUI::Wnd {
-public:
-	StaticText(const std::wstring& text, HWND parent)
-		:Wnd(parent)
-	{
-		hWnd = CreateWindowEx(
-			WS_EX_CLIENTEDGE, 
-			L"STATIC", 
-			text.c_str(), 
-			WS_VISIBLE | WS_CHILD | SS_LEFT,
-			0, 
-			0, 
-			100, 
-			20, 
-			parent, 
-			0, 
-			GetModuleHandle(NULL), 
-			0
-		);
-
-		if (!hWnd)
-			return;
-
-		SetWindowLongPtr(hWnd, GWL_USERDATA, (ULONG_PTR)this);
-	}
-};
-
-class Button : public WinUI::Wnd {
-
-public:
-	Button(const std::wstring& text, HWND parent) 
-		:Wnd(parent)
-	{
-		hWnd = CreateWindowEx(
-			0, 
-			L"BUTTON", 
-			text.c_str(), 
-			WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_MAXIMIZEBOX, 
-			0, 
-			0, 
-			100, 
-			20, 
-			parent, 
-			0, 
-			GetModuleHandle(NULL), 
-			0
-		);
-
-		if (!hWnd)
-			return;
-
-		SetWindowLongPtr(hWnd, GWL_USERDATA, (ULONG_PTR)this);
-	}
-
-	virtual void OnCommand(WPARAM wParam, LPARAM lParam)
-	{
-		OutputDebugStringW(L"Button::OnCommand\n");
-	}
-
-};
-
 class MainFrame : public WinUI::Frame
 {
 public:
-	StaticText* textBox = nullptr;
-	Button *button = nullptr;
+	//WinUI::StaticText* textBox = nullptr;
+	WinUI::Button *button = nullptr;
 
 	MainFrame()
 		: Frame(nullptr)
 	{
-		textBox = new StaticText(L"test", hWnd);
-		button = new Button(L"push me", hWnd);
+		//textBox = new WinUI::StaticText(L"test", hWnd);
+		button = new WinUI::Button(L"push me", hWnd);
 	}
 
 	~MainFrame()
 	{
 		delete button;
-		delete textBox;
+		//delete textBox;
 	}
 };
 
@@ -102,7 +43,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	auto frame = new MainFrame();
 
-	app.mainFrame = frame;
+	//app.mainFrame = frame;
 
 	app.run();
 

@@ -42,6 +42,9 @@
     <ClInclude Include="Core\Frame.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Controls.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
