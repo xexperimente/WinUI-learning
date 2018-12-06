@@ -1,78 +1,66 @@
 #pragma once
 
-#include "stdafx.h"
-
 #include <string>
 #include <memory>
+#include <vector>
+#include <functional>
 
 #include "Frame.h"
+#include "WindowClass.h"
 
 namespace xexperimente
 {
 	namespace WinUI
 	{
-		class StaticText : public WinUI::Wnd {
+		typedef std::function<void()> callback_t;
+
+		class CallbackHandler {
+			std::vector<callback_t> handlers;
 		public:
-			StaticText(const std::wstring& text, HWND parent)
-				:Wnd(parent)
+			void connect(const callback_t &cb)
 			{
-				hWnd = CreateWindowEx(
-					WS_EX_CLIENTEDGE,
-					L"STATIC",
-					text.c_str(),
-					WS_VISIBLE | WS_CHILD | SS_LEFT,
-					0,
-					0,
-					100,
-					20,
-					parent,
-					0,
-					GetModuleHandle(NULL),
-					0
-				);
+				handlers.push_back(cb);
+			}
 
-				if (!hWnd)
-					return;
-
-				SetWindowLongPtr(hWnd, GWL_USERDATA, (ULONG_PTR)this);
+			void fire()
+			{
+				for (const callback_t& f : handlers)
+				{
+					OutputDebugStringW(L"Firing\n");
+					f();
+				}
 			}
 		};
 
-		class Button : public WinUI::Wnd {
+		class StaticText : public WinUI::Window {
 		public:
-			Button(const std::wstring& text, HWND parent)
-				:Wnd(parent)
+			StaticText(const std::wstring& text, Window* parent, UINT style = 0)
+				:Window(WindowClassName(WC_STATIC), parent, style)
 			{
-				hWnd = CreateWindowEx(
-					0,
-					L"BUTTON",
-					text.c_str(),
-					WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_MAXIMIZEBOX,
-					0,
-					0,
-					100,
-					20,
-					parent,
-					0,
-					GetModuleHandle(NULL),
-					0
-				);
+			}
+		};
 
-				if (!hWnd)
-					return;
-
-				SetWindowLongPtr(hWnd, GWL_USERDATA, (ULONG_PTR)this);
+		class Button : public WinUI::Window {
+		public:
+			Button(const std::wstring& text, Window* parent, UINT style)
+				:Window(WindowClassName(WC_BUTTON), parent, style)
+			{
+				SetWindowText(hWnd, text.c_str());
 				
 				auto font = GetStockObject(DEFAULT_GUI_FONT);
 
 				SendMessage(hWnd, WM_SETFONT, (WPARAM)font, TRUE);
 			}
 
-			virtual void OnCommand(WPARAM wParam, LPARAM lParam)
+			virtual bool OnCommand(WPARAM wParam, LPARAM lParam)
 			{
 				OutputDebugStringW(L"Button::OnCommand\n");
+
+				Click.fire();
+				return true;
 			}
 
+			CallbackHandler Click;
 		};
 	}
 }

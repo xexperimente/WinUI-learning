@@ -7,11 +7,11 @@ namespace xexperimente
 {
 	namespace WinUI
 	{
-		class App {
+		class Application {
 
 		public:
 
-			App() {
+			Application() {
 				INITCOMMONCONTROLSEX icce;
 				icce.dwSize = sizeof(INITCOMMONCONTROLSEX);
 				icce.dwICC = 0
@@ -23,7 +23,7 @@ namespace xexperimente
 				InitCommonControlsEx(&icce);
 			}
 
-			void run() {
+			int run() {
 
 				// Main message loop:
 				MSG msg;
@@ -37,9 +37,8 @@ namespace xexperimente
 					}
 				}
 
+				return (int)msg.wParam;
 			}
-
-			//Frame *mainFrame = nullptr;
 
 		};
 	}

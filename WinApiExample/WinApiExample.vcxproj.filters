@@ -30,12 +30,6 @@
     <ClInclude Include="WinApiExample.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\App.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Wnd.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Core\winui.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -45,6 +39,21 @@
     <ClInclude Include="Core\Controls.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Application.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Window.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Register.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\WindowClass.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Types.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -52,6 +61,9 @@
     </ClCompile>
     <ClCompile Include="WinApiExample.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\WindowClass.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

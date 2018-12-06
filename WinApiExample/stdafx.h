@@ -17,6 +17,8 @@
 #include <memory.h>
 #include <tchar.h>
 
+#include <cassert>
+
 // for initcommoncontrols..
 #include <commctrl.h>
 #pragma comment(lib, "Comctl32.lib")

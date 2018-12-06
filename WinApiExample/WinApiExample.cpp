@@ -11,7 +11,6 @@
 
 namespace WinUI = xexperimente::WinUI;
 
-WinUI::App app;
 
 class MainFrame : public WinUI::Frame
 {
@@ -20,16 +19,44 @@ public:
 	WinUI::Button *button = nullptr;
 
 	MainFrame()
-		: Frame(nullptr)
+		: Frame(L"ExampleApp")
 	{
+		SetIcon(IDI_WINAPIEXAMPLE);
 		//textBox = new WinUI::StaticText(L"test", hWnd);
-		button = new WinUI::Button(L"push me", hWnd);
+		button = new WinUI::Button(L"push me", this, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_MAXIMIZEBOX);
+		button->SetSize(WinUI::Size{ 80, 20 });
+		button->Click.connect(std::bind(&MainFrame::OnButtonClick, this));
+		button->Click.connect([this]() { OnButtonClick2(); });
+
+		OutputDebugStringW(L"Binding func\n");
 	}
 
+	void OnButtonClick()
+	{
+		OutputDebugStringW(L"MainFrame::OnButtonClick()\n");
+	}
+	void OnButtonClick2()
+	{
+		OutputDebugStringW(L"MainFrame::OnButtonClick2()\n");
+	}
 	~MainFrame()
 	{
 		delete button;
 		//delete textBox;
+	}
+};
+
+class ExampleApp : public WinUI::Application
+{
+	std::unique_ptr<MainFrame> m_mainFrame;
+public:
+	ExampleApp()
+	{
+		m_mainFrame = std::make_unique<MainFrame>();
+	}
+
+	virtual ~ExampleApp()
+	{
 	}
 };
 
@@ -41,40 +68,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-	auto frame = new MainFrame();
+	ExampleApp app;
 
-	//app.mainFrame = frame;
-
-	app.run();
-
-    //// TODO: Place code here.
-
-    //// Initialize global strings
-    //LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-    //LoadStringW(hInstance, IDC_WINAPIEXAMPLE, szWindowClass, MAX_LOADSTRING);
-    //MyRegisterClass(hInstance);
-
-    //// Perform application initialization:
-    //if (!InitInstance (hInstance, nCmdShow))
-    //{
-    //    return FALSE;
-    //}
-
-    //HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_WINAPIEXAMPLE));
-
-    //MSG msg;
-
-    //// Main message loop:
-    //while (GetMessage(&msg, nullptr, 0, 0))
-    //{
-    //    if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-    //    {
-    //        TranslateMessage(&msg);
-    //        DispatchMessage(&msg);
-    //    }
-    //}
-
-    //return (int) msg.wParam;
+	return app.run();
 }
 //
 //
